@@ -1,0 +1,7 @@
+OriginalImg = imread("img.jpg");
+greyImg = im2gray(OriginalImg);
+
+a=[];
+for i = 1:8
+    a = [a,bitget(greyImg,i)];
+end
