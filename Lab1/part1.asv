@@ -1,34 +1,36 @@
-% s = c log(1+r), r>= 0
-% s = c log^-1(1)
-% s = c * r**y
-
+% Part 1
+%fix equations
+L= 256;
 OriginalImg = imread("img.jpg");
-greyImg = im2gray(OriginalImg);
-imageData = im2double(greyImg);
-
-c = 1;
-%logTrans = c * log(1+imageData);
-%inverLogTrans = c * exp(imageData);
-
-y = 3;
-powerlaw =  imageData .^ y;
+greyImg = rgb2gray(OriginalImg);
 
 
-subplot(2,2,1), imshow(greyImg)
-%subplot(2,2,2), imshow(logTrans)
-%subplot(2,2,3), imshow(inverLogTrans)
-%subplot(2,2,4), imshow(powerlaw)
+logTrans =  uint8( ((L - 1)/log(L)) * log(1+double(greyImg)) );
+inverLogTrans = uint8( (exp(double(greyImg)) .^ (log(L)/(L-1))) - 1);
+
+powerlawLog =  im2double(greyImg) .^ 0.3 ;
+powerlawInv =  im2double(greyImg) .^ 3 ;
 
 
-a1 = 10 * log10(1+imageData);
-%a2 = 2.5 * log10(1+imageData);
-%a3 = 5 * log10(1+imageData);
+subplot(3,2,[1,2]), imshow(greyImg); title('Input');
+subplot(3,2,3), imshow(logTrans); title('Log Transform')
+subplot(3,2,4), imshow(inverLogTrans); title("Inverse Log Transform")
+subplot(3,2,5), imshow(powerlawLog); title("Power Law 0.3")
+subplot(3,2,6), imshow(powerlawInv); title("Power Law 3")
 
 
-a2 = 10 * (10 .^ imageData);
-%a2 = 1/2 * (10 .^ imageData);
-%a3 = 1/2.5 * (10 .^ imageData);
+%part 3
+figure;
+title
+subplot(2,3,1), imhist(greyImg); title("Input")
+subplot(2,3,2), imhist(logTrans); title("Log")
+subplot(2,3,3), imhist(inverLogTrans); title("Inverse")
 
-subplot(2,2,2), imshow(a1))
-subplot(2,2,3), imshow(rescale(a))
-%subplot(2,2,4), imshow(a3)
+greyImgEq = histeq(greyImg);
+logTransEq = histeq(logTrans);
+InverLogTransEq = histeq(inverLogTrans);
+
+
+subplot(2,3,1), imhist(greyImgEq); title("Input")
+subplot(2,3,2), imhist(logTransEq); title("Log")
+subplot(2,3,3), imhist(InverLogTransEq); title("Inverse ")
