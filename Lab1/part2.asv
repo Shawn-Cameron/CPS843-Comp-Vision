@@ -25,39 +25,35 @@ shearImgNegFig = figure; imshow(shearImgNeg); title('a = -0.6');
 [X,Y] = tformfwd(tForm,U,V);
 gray = 0.8 * [1 1 1];
 
-% Defining points on original image for the circles
 figure(origImgFig);
 hold on;
 line(U, V, 'Color',gray);
 line(U',V','Color',gray);
 
-% Defining points on sheared image for the circles
 figure(shearImgPosFig);
 hold on;
 line(X, Y, 'Color',gray);
 line(X',Y','Color',gray);
 
-% Creating and displaying circles
 for  u = 0:100:1000
     for v = 0:134:700
         theta = (0: 32)' * (2 * pi/32);
         uc = u + 20 * cos(theta);
         vc = v + 20 * sin(theta);
-        [xc,yc] = tformfwd(tForm,uc,vc);  % applying transform function
-        figure(origImgFig); line(uc,vc,'Color',gray);
-        figure(shearImgPosFig); line(xc,yc,'Color', gray);
+        [xc,yc] = tformfwd(tForm,uc,vc);
+        %figure(origImgFig); line(uc,vc,'Color',gray);
+        %figure(shearImgPosFig); line(xc,yc,'Color', gray);
     end
 end
 
 
 % step 3 %
+close;
 
-% Defining the method sampler
 fillMethod = makeresampler({'cubic','nearest'},'fill');
 replicateMethod = makeresampler({'cubic','nearest'},'replicate');
 boundMethod = makeresampler({'cubic','nearest'},'bound');
 
-% Computing the result image after transformation
 fillOrigImg = imtransform(origImg,tForm,fillMethod, ...
                 'XData',[-49 1500],'YData',[-49 750], ...
                 'FillValues',color);
@@ -70,20 +66,16 @@ boundOrigImg = imtransform(origImg,tForm,boundMethod, ...
                 'XData',[-49 1500],'YData',[-49 750], ...
                 'FillValues',color);
 
-% Displaying images
-figure;
-subplot(2,2,1); imshow(fillOrigImg); title('Filled');
-subplot(2,2,2); imshow(repOrigImg); title('Replicate');
-subplot(2,2,[3 4]); imshow(boundOrigImg); title('Bound');
+figure; imshow(fillOrigImg); title('Filled');
+figure; imshow(repOrigImg); title('Replicate');
+figure; imshow(boundOrigImg); title('Bound');
 
 
 % step 4 %
 
-% Defining the method sampler
 cirMethod = makeresampler({'cubic','nearest'},'circular');
 symMethod = makeresampler({'cubic','nearest'},'symmetric');
 
-% Computing the result image after transformation
 cirOrigImg = imtransform(origImg,tForm,cirMethod, ...
                 'XData',[-149 1600],'YData',[-149 850], ...
                 'FillValues',color);
@@ -92,8 +84,6 @@ symOrigImg = imtransform(origImg,tForm,symMethod, ...
                 'XData',[-349 1800],'YData',[-349 1050], ...
                 'FillValues',color);
 
-% Displaying images
-figure;
-subplot(1,2,1); imshow(cirOrigImg); title('circular');
-subplot(1,2,2); imshow(symOrigImg); title('symmetric');
+figure; imshow(cirOrigImg); title('circular');
+figure; imshow(symOrigImg); title('symmetric');
 
