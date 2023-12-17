@@ -35,7 +35,7 @@ def harris_corner_detection(image, k=0.01, threshold=0.1):
     return detectedCorners
 
 #@profile  
-def fast_corner_detector(img, n = 9, threshold = 100):
+def fast_corner_detector(img, n = 8, threshold = 100):
     #converting to greyscale
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -106,7 +106,7 @@ def fast_corner_detector(img, n = 9, threshold = 100):
 
 def main():
     #imports the image
-    image = cv2.imread('./Samples/star.png')
+    image = cv2.imread('./Samples/checkerboard.png')
 
     #runs the algorithms and determines the total time
     currentTime = time.time()
@@ -131,12 +131,12 @@ def main():
     # draws the detected points on the image and diplays it
     for corner in harrisCorners:
         x,y = corner
-        cv2.circle(harrisImg, (y,x), 4, (0, 255, 0), -1)
+        cv2.circle(harrisImg, (y,x), 8, (0, 255, 0), -1)
     cv2.imshow("Harris", harrisImg)
 
     for corner in fastCorners:
         x,y = corner
-        cv2.circle(fastImg, (y,x), 4, (255, 0, 0), -1)
+        cv2.circle(fastImg, (y,x), 8, (255, 0, 0), -1)
     cv2.imshow("Fast", fastImg)
 
     cv2.waitKey(0)
